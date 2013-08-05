@@ -9,15 +9,14 @@ from Cython.Distutils import build_ext
 gearman_ext = Extension("gearman", [
     "src/gearman.pyx",
     "src/utils.c"
-])
+], libraries= ['gearman'])
 
 setup(
     name='gearman',
     version='0.0.2',
-    description='warpper libgearman for python3',
+    description='a wrapper libgearman for python3',
     author='Li Meng Jun',
     author_email='lmjubuntu@gmail.com',
-    url='http://lupino.me',
     ext_modules=[gearman_ext],
     cmdclass={'build_ext': build_ext},
 )
