@@ -1,4 +1,6 @@
 from gearman cimport *
+import logging
+logger = logging.getLogger('gearman')
 
 init_signal()
 
@@ -96,9 +98,12 @@ worker_callbacks = {}
 cdef gearman_return_t _func(gearman_job_st *_job, void *context):
     job = Job()
     job._job = _job
-    func = worker_callbacks.get(job.func_name, None)
-    if func:
-        func(job)
+    try:
+        func = worker_callbacks.get(job.func_name, None)
+        if func:
+            func(job)
+    except BaseException as e:
+        logger.exception(e)
 
 cdef class Worker:
     cdef gearman_worker_st *_worker
